@@ -12,7 +12,8 @@ const Header = () => {
         display={"flex"}
         justifyContent={"space-between"}
         alignItems={"flex-end"}
-        width={"var(--container)"}
+        width={"100%"}
+        maxWidth={"var(--container)"}
         margin={"0 auto"}
       >
         <img src={logoImage} width={82} height={41} alt='Logo Mediporta' />

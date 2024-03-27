@@ -1,17 +1,27 @@
-import { Paper } from "@mui/material";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
-const options = ["popularności", "aktywności", "alfabetu"];
+interface ISortingProps {
+  name: string;
+  options: string[];
+  selectedIndex: number;
+  setSelectedSort: Dispatch<SetStateAction<{ order: number; sort: number }>>;
+}
 
-const SortingElement = () => {
+const SortingElement = ({
+  name,
+  options,
+  selectedIndex,
+  setSelectedSort,
+}: ISortingProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+
   const open = Boolean(anchorEl);
+
   const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -20,7 +30,12 @@ const SortingElement = () => {
     _event: React.MouseEvent<HTMLElement>,
     index: number
   ) => {
-    setSelectedIndex(index);
+    if (name === "Kolejność") {
+      setSelectedSort((state) => ({ ...state, order: index }));
+    }
+    if (name === "Sortowanie według") {
+      setSelectedSort((state) => ({ ...state, sort: index }));
+    }
     setAnchorEl(null);
   };
 
@@ -28,14 +43,14 @@ const SortingElement = () => {
     setAnchorEl(null);
   };
   return (
-    <Paper sx={{ padding: 2 }}>
+    <>
       <List
         component='nav'
         aria-label='Sorting element'
         sx={{
           p: 0,
           borderBottom: "1px solid var(--border-color)",
-          width: "15rem",
+          width: "12rem",
         }}
       >
         <ListItemButton
@@ -46,10 +61,7 @@ const SortingElement = () => {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClickListItem}
         >
-          <ListItemText
-            primary={"Sortowanie według"}
-            secondary={options[selectedIndex]}
-          />
+          <ListItemText primary={name} secondary={options[selectedIndex]} />
         </ListItemButton>
       </List>
       <Menu
@@ -72,7 +84,7 @@ const SortingElement = () => {
           </MenuItem>
         ))}
       </Menu>
-    </Paper>
+    </>
   );
 };
 

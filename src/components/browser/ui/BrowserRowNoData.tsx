@@ -4,7 +4,9 @@ import TableRow from "@mui/material/TableRow";
 const BrowserRowNoData = () => {
   return (
     <TableRow>
-      <TableCell colSpan={3}>Brak danych</TableCell>
+      <TableCell colSpan={3} align='center'>
+        Brak danych
+      </TableCell>
     </TableRow>
   );
 };
