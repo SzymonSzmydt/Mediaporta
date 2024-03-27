@@ -45,7 +45,7 @@ export default function BrowserTable({ data, isLoading }: IBrowseTable) {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         )}
-        <TableContainer sx={{ height: "calc(100vh - 13rem)" }}>
+        <TableContainer sx={{ height: "calc(100vh - 19rem)" }}>
           <Table stickyHeader aria-label='sticky table'>
             <BrowserTableHead />
             <TableBody>

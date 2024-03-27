@@ -26,7 +26,7 @@ const Browser = () => {
     };
   }, []);
   return (
-    <Paper sx={{ width: "var(--container)", margin: "1rem auto", padding: 2 }}>
+    <Paper sx={{ padding: 2 }}>
       <Typography variant='h6'>Lista tagów</Typography>
       <BrowserTable data={tagsList} isLoading={isLoading} />
     </Paper>
