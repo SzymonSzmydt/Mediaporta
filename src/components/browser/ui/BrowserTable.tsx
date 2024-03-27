@@ -1,26 +1,26 @@
 import { ThemeProvider } from "@emotion/react";
-import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import * as React from "react";
 import { useState } from "react";
 import { themeWithLocale } from "../../utils/themes/localeThemes";
 import { ITags } from "../../utils/types/api";
+import BrowserRowIsLoading from "./BrowserRowIsLoading";
+import BrowserRowNoData from "./BrowserRowNoData";
+import BrowserTableHead from "./BrowserTableHead";
+import BrowserTableRow from "./BrowserTableRow";
 
 interface IBrowseTable {
   data: ITags[] | null;
+  isLoading: boolean;
 }
 
-export default function BrowserTable({ data }: IBrowseTable) {
+export default function BrowserTable({ data, isLoading }: IBrowseTable) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -32,58 +32,8 @@ export default function BrowserTable({ data }: IBrowseTable) {
   };
 
   return (
-    <Paper
-      sx={{ width: "var(--container)", overflow: "hidden", margin: "0 auto" }}
-    >
+    <>
       <ThemeProvider theme={themeWithLocale}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label='sticky table'>
-            <TableHead>
-              <TableRow>
-                <TableCell>Lp.</TableCell>
-                <TableCell align='right' component='td'>
-                  Tagi
-                </TableCell>
-                <TableCell align='right' component='td'>
-                  Liczba postów
-                </TableCell>
-                <TableCell align='right' component='td'>
-                  Użytkownik
-                </TableCell>
-                <TableCell align='right' component='td'>
-                  reputacja
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data && data.length > 0 ? (
-                data
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, idx) => {
-                    return (
-                      <TableRow key={row.title}>
-                        <TableCell>{idx + 1 + page * rowsPerPage}</TableCell>
-                        <TableCell align='right'>
-                          {row.tags.map((tag) => `${tag}, `)}
-                        </TableCell>
-                        <TableCell align='right'>{row.answer_count}</TableCell>
-                        <TableCell align='right'>
-                          {row.owner.display_name}
-                        </TableCell>
-                        <TableCell align='right'>
-                          {row.owner.reputation}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5}>Brak danych</TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
         {data && (
           <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
@@ -95,7 +45,30 @@ export default function BrowserTable({ data }: IBrowseTable) {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         )}
+        <TableContainer sx={{ height: "calc(100vh - 13rem)" }}>
+          <Table stickyHeader aria-label='sticky table'>
+            <BrowserTableHead />
+            <TableBody>
+              {isLoading ? (
+                <BrowserRowIsLoading />
+              ) : data && data?.length > 0 ? (
+                data
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, idx) => (
+                    <BrowserTableRow
+                      key={`${row.name}-${row.count}`}
+                      lp={idx + 1 + page * rowsPerPage}
+                      name={row.name}
+                      count={row.count}
+                    />
+                  ))
+              ) : (
+                <BrowserRowNoData />
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </ThemeProvider>
-    </Paper>
+    </>
   );
 }
