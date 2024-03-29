@@ -17,9 +17,14 @@ const Header = () => {
         margin={"0 auto"}
       >
         <img src={logoImage} width={82} height={41} alt='Logo Mediporta' />
-        <Typography variant='body2' color='text.secondary'>
-          Zadanie rekrutacyjne
-        </Typography>
+        <div>
+          <Typography variant='body2' color='var(--accent-color)'>
+            Zadanie rekrutacyjne
+          </Typography>
+          <Typography variant='body2' color='var(--accent-color)'>
+            Szymon Szmydt
+          </Typography>
+        </div>
       </Box>
     </Stack>
   );
