@@ -3,7 +3,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { useEffect, useState } from "react";
 import { ITags } from "../lib/types/api";
 import { ISelectedSort } from "../lib/types/initialStates";
-import { sortingOptions } from "../lib/utils/sortingOprions";
+import { generateUrl } from "../lib/utils/generateUrl";
 import BrowserTable from "./ui/BrowserTable";
 
 interface IBrowserProps {
@@ -18,12 +18,10 @@ const Browser = ({ selectedSort }: IBrowserProps) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const order = sortingOptions?.order.en[selectedSort.order];
-      const sort = sortingOptions?.sort.en[selectedSort.sort];
+      const url = generateUrl(selectedSort);
+
       try {
-        const response = await fetch(
-          `https://api.stackexchange.com/2.3/tags?order=${order}&sort=${sort}&site=stackoverflow`
-        );
+        const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
           setTagsList(data.items);
