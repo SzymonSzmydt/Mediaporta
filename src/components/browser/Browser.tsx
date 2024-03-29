@@ -1,11 +1,12 @@
 import { Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { sortingOptions } from "../lib/data/sortingOprions";
 import { ITags } from "../lib/types/api";
+import { ISelectedSort } from "../lib/types/initialStates";
+import { sortingOptions } from "../lib/utils/sortingOprions";
 import BrowserTable from "./ui/BrowserTable";
 
 interface IBrowserProps {
-  selectedSort: { order: number; sort: number };
+  selectedSort: ISelectedSort;
 }
 
 const Browser = ({ selectedSort }: IBrowserProps) => {
@@ -19,12 +20,17 @@ const Browser = ({ selectedSort }: IBrowserProps) => {
       setIsLoading(true);
       const order = sortingOptions?.order.en[selectedSort.order];
       const sort = sortingOptions?.sort.en[selectedSort.sort];
-      const result = await fetch(
-        `https://api.stackexchange.com/2.3/tags?order=${order}&sort=${sort}&site=stackoverflow`,
-        { signal }
-      );
-      const data = await result.json();
-      setTagsList(data.items);
+      try {
+        const result = await fetch(
+          `https://api.stackexchange.com/2.3/tags?order=${order}&sort=${sort}&site=stackoverflow`,
+          { signal }
+        );
+        const data = await result.json();
+        setTagsList(data.items);
+      } catch (error) {
+        console.log("Wystąpił błąd podczas pobierania danych: ");
+        console.error("Treść błędu: ", error);
+      }
       setIsLoading(false);
     };
     fetchData();

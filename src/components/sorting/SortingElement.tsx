@@ -4,12 +4,13 @@ import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Dispatch, SetStateAction, useState } from "react";
+import { ISelectedSort } from "../lib/types/initialStates";
 
 interface ISortingProps {
   name: string;
   options: string[];
   selectedIndex: number;
-  setSelectedSort: Dispatch<SetStateAction<{ order: number; sort: number }>>;
+  setSelectedSort: Dispatch<SetStateAction<ISelectedSort>>;
 }
 
 const SortingElement = ({

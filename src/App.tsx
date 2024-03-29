@@ -2,11 +2,11 @@ import { Paper, Stack } from "@mui/material";
 import { useState } from "react";
 import Browser from "./components/browser/Browser";
 import Header from "./components/header/Header";
-import { sortingOptions } from "./components/lib/data/sortingOprions";
+import { sortingOptions } from "./components/lib/utils/sortingOprions";
 import SortingElement from "./components/sorting/SortingElement";
 
 function App() {
-  const [selectedSort, setSelectedSort] = useState({ order: 1, sort: 1 });
+  const [selectedSort, setSelectedSort] = useState({ order: 0, sort: 0 });
 
   return (
     <>
