@@ -1,5 +1,5 @@
+import { sortingOptions } from "../data/sortingOprions";
 import { ISelectedSort } from "../types/initialStates";
-import { sortingOptions } from "./sortingOprions";
 
 export const generateUrl = (options: ISelectedSort): string => {
   if (!options) return "";

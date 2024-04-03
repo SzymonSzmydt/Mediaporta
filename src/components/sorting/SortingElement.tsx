@@ -75,7 +75,7 @@ const SortingElement = ({
           role: "listbox",
         }}
       >
-        {options.map((option, index) => (
+        {options?.map((option, index) => (
           <MenuItem
             key={option}
             selected={index === selectedIndex}

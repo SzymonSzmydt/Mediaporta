@@ -2,7 +2,7 @@ import { Paper, Stack } from "@mui/material";
 import { useState } from "react";
 import Browser from "./components/browser/Browser";
 import Header from "./components/header/Header";
-import { sortingOptions } from "./components/lib/utils/sortingOprions";
+import { sortingOptions } from "./components/lib/data/sortingOprions";
 import SortingElement from "./components/sorting/SortingElement";
 
 function App() {
